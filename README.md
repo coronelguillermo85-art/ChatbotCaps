@@ -35,6 +35,7 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 <img width="365" height="651" alt="image" src="https://github.com/user-attachments/assets/f5f01eae-f862-44cf-834f-4645ffa9c932" />
 ## 🧠 Código del nodo "Lógica del Bot" (n8n)
 
+
 Este es el código JavaScript completo que ejecuta la lógica del triaje, lee la base de datos desde GitHub Gist y gestiona la conversación con el usuario.
 
 ```json
@@ -65,6 +66,8 @@ Este es el código JavaScript completo que ejecuta la lógica del triaje, lee la
 }
 
 ---
+
+
 
 ## 🔧 Instalación y configuración (paso a paso)
 
