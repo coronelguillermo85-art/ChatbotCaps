@@ -28,10 +28,12 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 ## 🖼️ Capturas de pantalla
 
 ### Flujo en n8n
-![Flujo en n8n](https://github.com/user-attachments/assets/f69a3cf1-1703-44e1-acac-e334c6bd4c03)
+<img width="1333" height="954" alt="image" src="https://github.com/user-attachments/assets/14e90492-9bb1-4988-b2ac-4dd064d5eac9" />
+
 
 ### Conversación en Telegram
-![Conversación en Telegram](https://github.com/user-attachments/assets/3499c84a-f9a6-4b6e-87c3-4615a657c2a3)
+<img width="365" height="651" alt="image" src="https://github.com/user-attachments/assets/f5f01eae-f862-44cf-834f-4645ffa9c932" />
+
 
 ---
 
