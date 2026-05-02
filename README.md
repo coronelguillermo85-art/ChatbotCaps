@@ -35,16 +35,6 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 <img width="310" height="649" alt="image" src="https://github.com/user-attachments/assets/37dc86ff-9cc5-4069-ae59-02fb075fea38" />
 
 
-## 📂 Archivos del proyecto
-
-| Archivo | Descripción |
-|---------|-------------|
-| `README.md` | Documentación del proyecto |
-| `CAPS Bot - Con Gist (1).json` | Flujo exportado de n8n (sin credenciales) |
-| `capturas/` | Imágenes del funcionamiento |
-
-> ⚠️ **Nota de seguridad:** El archivo JSON exportado no contiene el token real de Telegram. Para usar el flujo, deberás agregar tu propio token en los nodos correspondientes.
-
 ## 🗄️ Base de datos
 
 La base de datos de pacientes se aloja en un **archivo público de GitHub Gist** para que el bot pueda leerla en tiempo real.
