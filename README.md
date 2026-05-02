@@ -26,7 +26,39 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 | `/help` | Mostrar ayuda |
 
 ## 🖼️ Capturas de pantalla
+## 📄 Código del flujo (n8n)
 
+El flujo exportado desde n8n tiene esta estructura principal:
+
+```json
+{
+  "name": "CAPS Bot - Con Gist",
+  "nodes": [
+    {
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "parameters": { "rule": { "interval": [{ "field": "seconds", "secondsInterval": 10 }] } }
+    },
+    {
+      "name": "Obtener Mensajes",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": { "url": "https://api.telegram.org/botTU_TOKEN_AQUI/getUpdates" }
+    },
+    {
+      "name": "Lógica con Gist",
+      "type": "n8n-nodes-base.code",
+      "parameters": { "jsCode": "// Lógica completa del bot" }
+    },
+    {
+      "name": "Enviar Respuesta",
+      "type": "n8n-nodes-base.httpRequest", 
+      "parameters": { "url": "https://api.telegram.org/botTU_TOKEN_AQUI/sendMessage" }
+    }
+  ]
+}
+```
+
+> ⚠️ **Nota:** El token aparece como `TU_TOKEN_AQUI`. Reemplazalo por tu propio token de Telegram.
 ### Flujo en n8n
 <img width="1342" height="925" alt="image" src="https://github.com/user-attachments/assets/ec0569a2-a110-4ce1-8cef-66257e9ebfb9" />
 
