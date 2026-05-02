@@ -26,9 +26,15 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 | `/help` | Mostrar ayuda |
 
 ## 🖼️ Capturas de pantalla
-## 📄 Código del flujo (n8n)
 
-El flujo exportado desde n8n tiene esta estructura principal:
+### Flujo en n8n
+![Flujo en n8n](https://github.com/user-attachments/assets/f69a3cf1-1703-44e1-acac-e334c6bd4c03)
+
+### Conversación en Telegram
+![Conversación en Telegram](https://github.com/user-attachments/assets/3499c84a-f9a6-4b6e-87c3-4615a657c2a3)
+
+## 📄 Código del flujo (n8n)
+El flujo exportado desde n8n tiene esta estructura principal (sin credenciales):
 
 ```json
 {
@@ -56,25 +62,3 @@ El flujo exportado desde n8n tiene esta estructura principal:
     }
   ]
 }
-```
-
-> ⚠️ **Nota:** El token aparece como `TU_TOKEN_AQUI`. Reemplazalo por tu propio token de Telegram.
-### Flujo en n8n
-<img width="1342" height="925" alt="image" src="https://github.com/user-attachments/assets/ec0569a2-a110-4ce1-8cef-66257e9ebfb9" />
-
-
-### Conversación en Telegram
-<img width="310" height="649" alt="image" src="https://github.com/user-attachments/assets/37dc86ff-9cc5-4069-ae59-02fb075fea38" />
-
-
-## 🗄️ Base de datos
-
-La base de datos de pacientes se aloja en un **archivo público de GitHub Gist** para que el bot pueda leerla en tiempo real.
-
-**Base de ejemplo (datos ficticios):**
-👉 [pacientes.txt - Base de datos del bot](https://gist.githubusercontent.com/coronelguillermo85-art/61ccc15c981da4105f65e3973f5c41ca/raw/gistfile1.txt)
-
-**Formato de cada registro (CSV con separador `|`):**
-```text
-NOMBRE|TELÉFONO|EDAD|SEXO|MOTIVO|TIEMPO|TRATAMIENTO|PRIORIDAD
-Ejemplo|3442123456|37|Masculino|Psiquiatría|más de 3 meses|No|ALTA
