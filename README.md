@@ -33,32 +33,22 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 ### Conversación en Telegram
 ![Conversación en Telegram](https://github.com/user-attachments/assets/3499c84a-f9a6-4b6e-87c3-4615a657c2a3)
 
-## 📄 Código del flujo (n8n)
-El flujo exportado desde n8n tiene esta estructura principal (sin credenciales):
+---
 
-```json
-{
-  "name": "CAPS Bot - Con Gist",
-  "nodes": [
-    {
-      "name": "Schedule Trigger",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "parameters": { "rule": { "interval": [{ "field": "seconds", "secondsInterval": 10 }] } }
-    },
-    {
-      "name": "Obtener Mensajes",
-      "type": "n8n-nodes-base.httpRequest",
-      "parameters": { "url": "https://api.telegram.org/botTU_TOKEN_AQUI/getUpdates" }
-    },
-    {
-      "name": "Lógica con Gist",
-      "type": "n8n-nodes-base.code",
-      "parameters": { "jsCode": "// Lógica completa del bot" }
-    },
-    {
-      "name": "Enviar Respuesta",
-      "type": "n8n-nodes-base.httpRequest", 
-      "parameters": { "url": "https://api.telegram.org/botTU_TOKEN_AQUI/sendMessage" }
-    }
-  ]
-}
+## 🔧 Instalación y configuración (paso a paso)
+
+### Requisitos previos
+| Requisito | Dónde obtenerlo |
+|-----------|-----------------|
+| **Node.js** (versión 18 o superior) | [https://nodejs.org](https://nodejs.org) |
+| **n8n** | Se instala automáticamente |
+| **Cuenta de Telegram** | [https://telegram.org](https://telegram.org) |
+| **GitHub Gist** (para la base de datos) | [https://gist.github.com](https://gist.github.com) |
+
+---
+
+### Paso 1: Instalar n8n
+
+**Windows (PowerShell como administrador):**
+```powershell
+npm install -g n8n
