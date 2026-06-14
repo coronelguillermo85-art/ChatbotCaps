@@ -65,3 +65,4 @@ Este es el código JavaScript completo que ejecuta la lógica del triaje, lee la
     }
   ]
 }
+Carpeta de Archivos: https://drive.google.com/file/d/1xHAN0nd3mew9_tc_an22M3WuRTPx0OOt/view?usp=drive_link
