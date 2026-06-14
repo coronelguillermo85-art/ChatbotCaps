@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Manual de errores y bugs - Bot de triaje salud mental | CAPS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #eef2f7;
+            padding: 40px 20px;
+            color: #1a2a3a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 40px 48px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #e63946;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: #b91c2c;
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: #2c3e50;
+        }
+
+        .badge {
+            background-color: #e63946;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #b91c2c;
+            border-left: 6px solid #e63946;
+            padding-left: 20px;
+            margin-bottom: 24px;
+            margin-top: 8px;
+        }
+
+        .subsection {
+            margin-bottom: 28px;
+        }
+
+        .subsection h3 {
+            font-size: 1.4rem;
+            color: #b91c2c;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #dce4ec;
+            padding: 12px 16px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #fce4e4;
+            color: #b91c2c;
+            font-weight: 600;
+        }
+
+        pre, code {
+            background: #1e2a32;
+            color: #e9f1f6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        pre {
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .note {
+            background-color: #eef2fa;
+            padding: 18px 22px;
+            border-radius: 20px;
+            margin: 24px 0;
+            border-left: 5px solid #e63946;
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-left-color: #e67e22;
+        }
+        .tip {
+            background-color: #e0f7e8;
+            border-left-color: #2ecc71;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #b91c2c;
+        }
+        .toc li {
+            margin-left: 24px;
+            margin-bottom: 6px;
+        }
+
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #5e7e8c;
+            border-top: 1px solid #cbdbe2;
+            padding-top: 24px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; margin: 0; }
+            .container { max-width: 100%; padding: 20px; box-shadow: none; border-radius: 0; }
+            .badge, th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section { page-break-inside: avoid; margin-bottom: 30px; }
+            .toc, .note, .warning { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🐞 Manual de errores y bugs</h1>
+        <h2>Bot de triaje para salud mental · CAPS Dr. Bartolomé Giacomotti</h2>
+        <div class="badge">Errores frecuentes · Causas · Soluciones paso a paso</div>
+    </div>
+
+    <!-- Índice -->
+    <div class="toc">
+        <h3>📑 Índice de errores</h3>
+        <ul>
+            <li><a href="#error1">1. Bad webhook / HTTPS required (Telegram)</a></li>
+            <li><a href="#error2">2. {"ok":true,"result":[]} – El bot no recibe mensajes</a></li>
+            <li><a href="#error3">3. 401 Unauthorized – Token incorrecto</a></li>
+            <li><a href="#error4">4. Bad Request: chat not found</a></li>
+            <li><a href="#error5">5. Too Many Requests (429)</a></li>
+            <li><a href="#error6">6. El bot no prioriza o no detecta emergencias</a></li>
+            <li><a href="#error7">7. Siempre dice “número no registrado”</a></li>
+            <li><a href="#error8">8. Error de fetch / No lee la base de datos (Gist)</a></li>
+            <li><a href="#error9">9. Railway: la app no arranca o el deploy falla</a></li>
+            <li><a href="#error10">10. WhatsApp: el webhook no responde o no recibe mensajes</a></li>
+            <li><a href="#error11">11. El flujo se ejecuta pero el nodo "Enviar Respuesta" no se activa</a></li>
+            <li><a href="#error12">12. El bot responde mensajes duplicados</a></li>
+        </ul>
+    </div>
+
+    <!-- 1 -->
+    <div class="section" id="error1">
+        <div class="section-title">1️⃣ Bad webhook / HTTPS required</div>
+        <p><strong>📌 Síntoma:</strong> El nodo Telegram Trigger muestra "Bad Request: bad webhook: An HTTPS URL must be provided".</p>
+        <p><strong>🎯 Causa:</strong> El nodo está en modo webhook y n8n corre en localhost (HTTP).</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li><strong>Opción A (polling):</strong> Eliminá el nodo Telegram Trigger y usá un nodo HTTP Request con GET a <code>https://api.telegram.org/botTU_TOKEN/getUpdates</code>. Agregá query params: offset y timeout.</li>
+            <li><strong>Opción B (ngrok):</strong> Ejecutá <code>ngrok http 5678</code> y usá la URL pública HTTPS para el webhook.</li>
+        </ul>
+        <div class="note">📌 Si usás Railway, la URL ya es HTTPS, no necesitás ngrok.</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="section" id="error2">
+        <div class="section-title">2️⃣ {"ok":true,"result":[]} – El bot no recibe mensajes</div>
+        <p><strong>📌 Síntoma:</strong> El nodo HTTP Request devuelve "result":[] aunque enviaste /start.</p>
+        <p><strong>🎯 Causa:</strong> Offset avanzado o mensaje enviado antes de activar el flujo.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ol>
+            <li>Enviá un mensaje nuevo al bot (ej: /start).</li>
+            <li>En el nodo Obtener Mensajes, cambiá <code>offset</code> a <code>-1</code>.</li>
+            <li>Ejecutá el nodo una vez.</li>
+            <li>Volvé a poner <code>offset = {{ $getWorkflowStaticData('node').offset || 0 }}</code>.</li>
+        </ol>
+    </div>
+
+    <!-- 3 -->
+    <div class="section" id="error3">
+        <div class="section-title">3️⃣ 401 Unauthorized – Token incorrecto</div>
+        <p><strong>📌 Síntoma:</strong> Los nodos devuelven "Unauthorized".</p>
+        <p><strong>🎯 Causa:</strong> Token mal copiado, revocado o con espacios.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ol>
+            <li>Andá a @BotFather → /token → copiá el token exacto.</li>
+            <li>En n8n, pegá el token en las URLs de ambos nodos (Obtener Mensajes y Enviar Respuesta).</li>
+            <li>Si el token fue expuesto, revocalo con /revoke y genera uno nuevo.</li>
+        </ol>
+    </div>
+
+    <!-- 4 -->
+    <div class="section" id="error4">
+        <div class="section-title">4️⃣ Bad Request: chat not found</div>
+        <p><strong>📌 Síntoma:</strong> El bot no puede enviar mensajes.</p>
+        <p><strong>🎯 Causa:</strong> chat_id incorrecto o el usuario no ha interactuado nunca.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Abrí <code>https://api.telegram.org/botTU_TOKEN/getUpdates</code> y buscá "chat":{"id":xxxxx}.</li>
+            <li>En el nodo Enviar Respuesta, usá <code>={{ $json.chatId }}</code> (el código JS ya lo obtiene automáticamente).</li>
+        </ul>
+    </div>
+
+    <!-- 5 -->
+    <div class="section" id="error5">
+        <div class="section-title">5️⃣ Too Many Requests (429)</div>
+        <p><strong>📌 Síntoma:</strong> Telegram responde con error 429 o el bot deja de responder.</p>
+        <p><strong>🎯 Causa:</strong> Intervalo del Schedule Trigger muy corto (ej: 3 segundos) o offset mal configurado.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Cambiá el intervalo del Schedule Trigger a 10 o 15 segundos.</li>
+            <li>Ejecutá <code>getUpdates?offset=-1</code> en el navegador para limpiar cola.</li>
+            <li>Asegurate de que offset use la expresión correcta: <code>={{ $getWorkflowStaticData('node').offset || 0 }}</code>.</li>
+        </ul>
+    </div>
+
+    <!-- 6 -->
+    <div class="section" id="error6">
+        <div class="section-title">6️⃣ El bot no prioriza o no detecta emergencias</div>
+        <p><strong>📌 Síntoma:</strong> El bot responde pero todas las consultas tienen la misma prioridad.</p>
+        <p><strong>🎯 Causa:</strong> El código JS no evalúa correctamente el motivo o la base de datos no tiene la columna MOTIVO.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Verificá que el jsCode contenga condiciones como <code>if (motivo === '2') prioridad = 'ALTA';</code></li>
+            <li>Probá manualmente con "2" en la pregunta de motivo.</li>
+            <li>Asegurate de que el Gist tenga la columna MOTIVO con valores "Psiquiatría", "Psicología", etc.</li>
+        </ul>
+    </div>
+
+    <!-- 7 -->
+    <div class="section" id="error7">
+        <div class="section-title">7️⃣ Siempre dice “número no registrado”</div>
+        <p><strong>📌 Síntoma:</strong> El paciente envía su número y el bot responde que no está registrado.</p>
+        <p><strong>🎯 Causa:</strong> El número en la base tiene espacios, guiones o formato diferente.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Abrí la URL cruda del Gist y verificá el formato (ej: 3442123456 sin espacios).</li>
+            <li>En el código JS, usá <code>telefono.replace(/\s/g, '')</code> para limpiar espacios.</li>
+            <li>Si el número tiene código de país, asegurate de que coincida exactamente.</li>
+        </ul>
+    </div>
+
+    <!-- 8 -->
+    <div class="section" id="error8">
+        <div class="section-title">8️⃣ Error de fetch / No lee la base de datos (Gist)</div>
+        <p><strong>📌 Síntoma:</strong> El nodo Code muestra error de fetch o devuelve array vacío.</p>
+        <p><strong>🎯 Causa:</strong> URL del Gist incorrecta, privada o mal formada.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Usá la URL Raw de GitHub (debe terminar en <code>/raw/...</code>).</li>
+            <li>Probá la URL en una ventana de incógnito: debe verse el texto plano.</li>
+            <li>Si n8n sigue fallando, cambiá temporalmente la base a un JSON local dentro del código.</li>
+        </ul>
+    </div>
+
+    <!-- 9 -->
+    <div class="section" id="error9">
+        <div class="section-title">9️⃣ Railway: la app no arranca o el deploy falla</div>
+        <p><strong>📌 Síntoma:</strong> El contenedor no se levanta o muestra errores al construir.</p>
+        <p><strong>🎯 Causa:</strong> Dockerfile mal escrito, archivo JSON faltante o variables de entorno no definidas.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Verificá que el Dockerfile esté en la raíz del repo:</li>
+            <pre>FROM n8nio/n8n:latest
+COPY caps-flujo.json /home/node/.n8n/caps-flujo.json</pre>
+            <li>En Railway → Variables, agregá: <code>N8N_BASIC_AUTH_ACTIVE=true</code>, <code>N8N_BASIC_AUTH_USER=admin</code>, <code>N8N_BASIC_AUTH_PASSWORD=secreto123</code>.</li>
+            <li>Revisá los logs en Railway (pestaña Deployments).</li>
+        </ul>
+    </div>
+
+    <!-- 10 -->
+    <div class="section" id="error10">
+        <div class="section-title">🔟 WhatsApp: el webhook no responde o no recibe mensajes</div>
+        <p><strong>📌 Síntoma:</strong> El bot no responde en WhatsApp, o Meta muestra error de configuración.</p>
+        <p><strong>🎯 Causa:</strong> La URL del webhook no es HTTPS, el token es inválido o no se verificó el número.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Usá Railway o ngrok para tener HTTPS.</li>
+            <li>En Meta Developers, configurá el webhook apuntando a <code>https://tu-app.railway.app/webhook</code>.</li>
+            <li>Verificá que el número de teléfono esté aprobado en el panel de WhatsApp Business.</li>
+            <li>Usá los números de prueba que proporciona Meta (hasta 5) para hacer pruebas.</li>
+        </ul>
+        <div class="note">📌 La lógica de priorización es la misma que en Telegram; solo cambia la entrada/salida de mensajes.</div>
+    </div>
+
+    <!-- 11 -->
+    <div class="section" id="error11">
+        <div class="section-title">1️⃣1️⃣ El flujo se ejecuta pero el nodo "Enviar Respuesta" no se activa</div>
+        <p><strong>📌 Síntoma:</strong> El nodo "Enviar Respuesta" aparece con "Node was not executed".</p>
+        <p><strong>🎯 Causa:</strong> El nodo "Lógica de Triaje" no genera ningún output porque no encontró mensajes nuevos o el código JS no devuelve nada.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Verificá que "Obtener Mensajes" devuelva mensajes (no <code>[]</code>).</li>
+            <li>Probá el código JS por separado: reemplazalo temporalmente por <code>return [{ json: { chatId: 123, message: "test" } }];</code></li>
+            <li>Si con el código de prueba funciona, el problema está en la lógica condicional (ej: el comando /start no se está detectando).</li>
+        </ul>
+    </div>
+
+    <!-- 12 -->
+    <div class="section" id="error12">
+        <div class="section-title">1️⃣2️⃣ El bot responde mensajes duplicados</div>
+        <p><strong>📌 Síntoma:</strong> El bot envía la misma respuesta muchas veces.</p>
+        <p><strong>🎯 Causa:</strong> El offset no se actualiza, o el flujo procesa todos los mensajes históricos.</p>
+        <p><strong>✅ Solución:</strong></p>
+        <ul>
+            <li>Ejecutá <code>https://api.telegram.org/botTU_TOKEN/getUpdates?offset=-1</code> en el navegador.</li>
+            <li>En el nodo "Obtener Mensajes", asegurate de que el offset tenga la expresión <code>={{ $getWorkflowStaticData('node').offset || 0 }}</code>.</li>
+            <li>Reiniciá el flujo (desactivar y activar).</li>
+        </ul>
+        <div class="tip">✔️ Si el problema persiste, agregá una línea al principio del código JS para procesar solo el primer mensaje: <code>if (updates.length > 1) updates = [updates[0]];</code></div>
+    </div>
+
+    <!-- Diagnóstico rápido -->
+    <div class="section">
+        <div class="section-title">🛠️ Diagnóstico rápido (checklist)</div>
+        <table>
+            <tr><th>Paso</th><th>Qué verificar</th></tr>
+            <tr><td>1</td><td>¿El flujo está en <strong>Active (verde)</strong>?</td></tr>
+            <tr><td>2</td><td>¿El token de Telegram está bien copiado y sin espacios?</td></tr>
+            <tr><td>3</td><td>¿El Schedule Trigger tiene un intervalo ≥ 10 segundos?</td></tr>
+            <tr><td>4</td><td>¿El offset usa la expresión <code>={{ $getWorkflowStaticData('node').offset || 0 }}</code>?</td></tr>
+            <tr><td>5</td><td>¿El Gist es público y la URL Raw devuelve datos?</td></tr>
+            <tr><td>6</td><td>¿Los nodos "Obtener Mensajes" y "Enviar Respuesta" tienen el mismo token?</td></tr>
+            <tr><td>7</td><td>¿Revisaste los logs de Railway (si usás hosting)?</td></tr>
+        </table>
+        <div class="note warning">🚨 <strong>Seguridad:</strong> Nunca subas tokens reales a GitHub. Usá variables de entorno o archivos <code>.env</code>.</div>
+    </div>
+
+    <div class="footer">
+        <p>📌 Manual de errores v1.0 – Bot de triaje para salud mental | CAPS Dr. Bartolomé Giacomotti</p>
+        <p>✅ Para cualquier error no listado, revisá los logs de n8n (pestaña "Executions") o los logs de Railway.</p>
+        <p>⭐ Recomendación: imprimí este manual junto con el tutorial principal para tener una guía completa de solución de problemas.</p>
+    </div>
+</div>
+</body>
+</html>
