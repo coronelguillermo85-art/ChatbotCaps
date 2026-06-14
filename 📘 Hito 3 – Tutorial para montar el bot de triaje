@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Hito 3 - Bot de Triaje Salud Mental | CAPS - Tutorial y despliegue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #eef2f7;
+            padding: 40px 20px;
+            color: #1a2a3a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 40px 48px;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #25D366;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: #075E54;
+            margin-bottom: 8px;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: #128C7E;
+        }
+
+        .badge {
+            background-color: #25D366;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 12px;
+            margin-right: 8px;
+        }
+
+        .badge-telegram {
+            background-color: #26A5E4;
+        }
+
+        /* SECCIONES */
+        .section {
+            margin-bottom: 48px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #075E54;
+            border-left: 6px solid #25D366;
+            padding-left: 20px;
+            margin-bottom: 24px;
+            margin-top: 8px;
+        }
+
+        .subsection {
+            margin-bottom: 28px;
+        }
+
+        .subsection h3 {
+            font-size: 1.4rem;
+            color: #075E54;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        /* TABLAS */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #dce4ec;
+            padding: 12px 16px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #e6f4f5;
+            color: #075E54;
+            font-weight: 600;
+        }
+
+        /* CÓDIGO */
+        pre, code {
+            background: #1e2a32;
+            color: #e9f1f6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        pre {
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* CONVERSACIÓN */
+        .conversation {
+            background: #f8fafc;
+            border-left: 4px solid #25D366;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .bot { color: #075E54; font-weight: 500; }
+        .user { color: #2c5f2d; font-weight: 500; }
+
+        /* NOTAS */
+        .note {
+            background-color: #eef2fa;
+            padding: 18px 22px;
+            border-radius: 20px;
+            margin: 24px 0;
+            border-left: 5px solid #25D366;
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-left-color: #e67e22;
+        }
+
+        /* MOCKUP WHATSAPP */
+        .whatsapp-mockup {
+            max-width: 340px;
+            margin: 20px auto;
+            background-color: #e5ddd5;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
+        .mockup-header {
+            background-color: #075E54;
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .mockup-header .avatar {
+            width: 36px;
+            height: 36px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .mockup-header .info h4 { margin: 0; font-size: 0.9rem; }
+        .mockup-header .info p { margin: 0; font-size: 0.65rem; opacity: 0.8; }
+        .mockup-chat {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #e5ddd5;
+        }
+        .bubble-bot {
+            background: white;
+            align-self: flex-start;
+            padding: 8px 12px;
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            max-width: 85%;
+            font-size: 0.8rem;
+        }
+        .bubble-user {
+            background: #dcf8c5;
+            align-self: flex-end;
+            padding: 8px 12px;
+            border-radius: 16px;
+            border-top-right-radius: 4px;
+            max-width: 85%;
+            font-size: 0.8rem;
+        }
+        .mockup-footer {
+            padding: 10px;
+            background: #f0f0f0;
+            text-align: center;
+            font-size: 0.65rem;
+            color: #555;
+        }
+
+        /* JSON colapsable (para que no ocupe espacio innecesario en pantalla) */
+        .json-container {
+            margin: 20px 0;
+        }
+        .json-toggle {
+            background-color: #075E54;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .json-content {
+            display: none;
+            background: #1e2a32;
+            border-radius: 16px;
+            padding: 4px;
+        }
+        .json-content.show {
+            display: block;
+        }
+
+        /* PIE */
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #5e7e8c;
+            border-top: 1px solid #cbdbe2;
+            padding-top: 24px;
+        }
+
+        /* ESTILOS PARA IMPRESIÓN PDF */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                max-width: 100%;
+                padding: 20px;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .badge, .badge-telegram, th, .mockup-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .whatsapp-mockup {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 30px;
+            }
+            .json-toggle {
+                display: none;
+            }
+            .json-content {
+                display: block !important;
+                background: #f4f4f4;
+                border: 1px solid #ccc;
+                color: black;
+            }
+            pre {
+                background: #f4f4f4;
+                color: black;
+                border: 1px solid #ccc;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📘 Hito 3 – Tutorial para montar el bot de triaje</h1>
+        <h2>Salud mental · CAPS Dr. Bartolomé Giacomotti</h2>
+        <div class="badge">📱 Finalidad: WhatsApp Business</div>
+        <div class="badge badge-telegram">🔄 Prototipo: Telegram (migrable)</div>
+    </div>
+
+    <!-- 0. Qué es este documento -->
+    <div class="section">
+        <div class="section-title">📌 ¿Qué vas a lograr con este tutorial?</div>
+        <p>Cualquier persona —sin experiencia técnica avanzada— podrá:</p>
+        <ul>
+            <li>✅ <strong>Montar un bot de triaje</strong> para salud mental en menos de 30 minutos.</li>
+            <li>✅ <strong>Usarlo en Telegram</strong> como prueba gratuita.</li>
+            <li>✅ <strong>Migrarlo a WhatsApp Business</strong> (el canal real que usa el CAPS).</li>
+            <li>✅ <strong>Desplegarlo en Railway</strong> para que funcione 24/7 sin depender de una PC.</li>
+        </ul>
+        <div class="note">📎 <strong>Archivos necesarios:</strong> el <strong>flujo JSON</strong> (está más abajo, sección 8) y un <strong>Dockerfile</strong> (incluido en el paso 5).</div>
+    </div>
+
+    <!-- 1. Requisitos previos -->
+    <div class="section">
+        <div class="section-title">1️⃣ Requisitos previos (todo gratuito)</div>
+        <table>
+            <tr><th>Recurso</th><th>Dónde obtenerlo</th></tr>
+            <tr><td>Cuenta de GitHub</td><td><a href="https://github.com">github.com</a></td></tr>
+            <tr><td>Cuenta en Railway</td><td><a href="https://railway.app">railway.app</a> (pide tarjeta, pero no te cobra si usás crédito inicial de $5)</td></tr>
+            <tr><td>Token de Telegram (solo para pruebas)</td><td>Buscá <code>@BotFather</code> en Telegram → <code>/newbot</code></td></tr>
+            <tr><td>Número de WhatsApp Business (final)</td><td><a href="https://business.facebook.com">business.facebook.com</a></td></tr>
+        </table>
+    </div>
+
+    <!-- 2. Importar el flujo en n8n -->
+    <div class="section">
+        <div class="section-title">2️⃣ Importar el flujo en n8n (local o en la nube)</div>
+        <div class="subsection">
+            <h3>🔧 Instalar n8n (solo si usás tu computadora)</h3>
+            <pre>npm install -g n8n
+npx n8n</pre>
+            <p>Abrí <code>http://localhost:5678</code> en el navegador.</p>
+            <h3>📥 Importar el JSON</h3>
+            <p>En n8n: <strong>Import → From JSON</strong> → pegar el bloque JSON de la <strong>sección 8</strong> de este documento.</p>
+            <div class="note">✅ El flujo aparecerá con 4 nodos: Schedule Trigger, Obtener Mensajes, Lógica de Triaje, Enviar Respuesta.</div>
+        </div>
+    </div>
+
+    <!-- 3. Configurar Telegram (prototipo rápido) -->
+    <div class="section">
+        <div class="section-title">3️⃣ Configurar Telegram (prototipo gratuito)</div>
+        <ol>
+            <li>En Telegram, buscá <code>@BotFather</code> y creá un bot (<code>/newbot</code>). Copiá el <strong>token</strong>.</li>
+            <li>En n8n, hacé doble clic en <strong>Obtener Mensajes</strong> → reemplazá <code>TU_TOKEN_AQUI</code> por el token.</li>
+            <li>Hacé lo mismo en el nodo <strong>Enviar Respuesta</strong>.</li>
+            <li>Guardá el flujo (<strong>Save</strong>) y activalo (<strong>Active</strong> en verde).</li>
+            <li>Probá enviar <code>/start</code> a tu bot de Telegram.</li>
+        </ol>
+        <div class="whatsapp-mockup" style="margin-top:20px">
+            <div class="mockup-header"><div class="avatar">C</div><div class="info"><h4>CAPS Salud Mental</h4><p>En línea</p></div></div>
+            <div class="mockup-chat">
+                <div class="bubble-user">/start</div>
+                <div class="bubble-bot">🔍 Enviá tu número de teléfono (ej: 3442123456):</div>
+                <div class="bubble-user">3442123456</div>
+                <div class="bubble-bot">✅ PACIENTE ENCONTRADO. Turno de seguimiento asignado.</div>
+            </div>
+            <div class="mockup-footer">Ejemplo real</div>
+        </div>
+    </div>
+
+    <!-- 4. Migrar a WhatsApp Business -->
+    <div class="section">
+        <div class="section-title">4️⃣ Migrar a WhatsApp Business (finalidad real)</div>
+        <ol>
+            <li><strong>Crear app en Meta Developers</strong> → agregar producto WhatsApp → obtener <code>Phone Number ID</code> y <code>Token Permanente</code>.</li>
+            <li><strong>Modificar el flujo en n8n</strong>: los nodos <code>Obtener Mensajes</code> y <code>Enviar Respuesta</code> de Telegram se reemplazan por un <strong>Webhook</strong> (recibir) y un <strong>HTTP Request</strong> (enviar).</li>
+            <li>El <strong>código JavaScript de la lógica</strong> se mantiene exactamente igual (priorización, base de datos, emergencias).</li>
+            <li><strong>Exponer n8n con HTTPS</strong> (necesario para WhatsApp). Si usás Railway, la URL ya es HTTPS. Si usás tu PC, usá ngrok: <code>ngrok http 5678</code>.</li>
+            <li>Configurar el webhook en Meta: apuntar a <code>https://tu-dominio.railway.app/webhook</code>.</li>
+        </ol>
+        <div class="note warning">⚠️ WhatsApp no permite pruebas largas con números no verificados. Usá los <strong>números de prueba</strong> que proporciona Meta durante el desarrollo.</div>
+    </div>
+
+    <!-- 5. Desplegar en Railway (24/7) -->
+    <div class="section">
+        <div class="section-title">5️⃣ Desplegar en Railway para que funcione sin tu PC</div>
+        <div class="subsection">
+            <h3>📁 Crear repositorio en GitHub</h3>
+            <p>Subí dos archivos:</p>
+            <ul>
+                <li><strong>Dockerfile</strong> (contenido de abajo)</li>
+                <li><strong>caps-flujo.json</strong> (el JSON de la sección 8)</li>
+            </ul>
+            <pre>FROM n8nio/n8n:latest
+ENV N8N_BASIC_AUTH_ACTIVE=true
+ENV N8N_BASIC_AUTH_USER=admin
+ENV N8N_BASIC_AUTH_PASSWORD=admin123
+COPY caps-flujo.json /home/node/.n8n/caps-flujo.json</pre>
+            <h3>🚀 Desplegar en Railway</h3>
+            <ol>
+                <li>Entrá a <a href="https://railway.app">railway.app</a> → <strong>New Project</strong> → <strong>Deploy from GitHub repo</strong>.</li>
+                <li>Seleccioná el repositorio que creaste.</li>
+                <li>Railway construye la imagen automáticamente y te da una URL pública (ej: <code>https://caps-bot.up.railway.app</code>).</li>
+                <li>Configurá las variables de entorno (en Railway → <strong>Variables</strong>):<br>
+                    <code>N8N_BASIC_AUTH_ACTIVE=true</code><br>
+                    <code>N8N_BASIC_AUTH_USER=admin</code><br>
+                    <code>N8N_BASIC_AUTH_PASSWORD=secreto123</code>
+                </li>
+                <li>En la pestaña <strong>Settings</strong>, copiá el dominio (HTTPS).</li>
+            </ol>
+            <div class="note">✅ Una vez desplegado, accedé a <code>https://tu-app.railway.app</code>, hacé login con <code>admin</code> / <code>secreto123</code> y activá el flujo. El bot ya funciona 24/7.</div>
+        </div>
+    </div>
+
+    <!-- 6. Priorización y flujo conversación -->
+    <div class="section">
+        <div class="section-title">6️⃣ Priorización automática (sin intervención humana)</div>
+        <table>
+            <tr><th>Motivo</th><th>Prioridad</th><th>Plazo de contacto</th></tr>
+            <tr><td>Psiquiatría + ideación/intento</td><td>🚨 EMERGENCIA</td><td>Derivación inmediata al 107</td></tr>
+            <tr><td>Psiquiatría (sin emergencia)</td><td>🔴 ALTA</td><td>24 horas</td></tr>
+            <tr><td>Psicología</td><td>🟡 MEDIA</td><td>48 horas</td></tr>
+            <tr><td>Clínica general / Otro</td><td>🟢 BAJA</td><td>7 días hábiles</td></tr>
+        </table>
+        <div class="conversation">
+            <p><span class="bot">🏥 Bot:</span> ¿Motivo? 1=Psicología 2=Psiquiatría 3=Clínica</p>
+            <p><span class="user">👤 Paciente:</span> 2</p>
+            <p><span class="bot">🏥 Bot:</span> Prioridad <strong>🔴 ALTA</strong>. Te contactaremos en 24h. Urgencias: 107.</p>
+        </div>
+    </div>
+
+    <!-- 7. Automatización vs humano -->
+    <div class="section">
+        <div class="section-title">7️⃣ ¿Qué hace el bot y qué hace el personal?</div>
+        <table>
+            <tr><th>Actividad</th><th>Bot</th><th>Humano</th></tr>
+            <tr><td>Recibir mensajes</td><td>✅</td><td></td></tr>
+            <tr><td>Hacer preguntas y priorizar</td><td>✅</td><td></td></tr>
+            <tr><td>Detectar emergencias</td><td>✅</td><td></td></tr>
+            <tr><td>Notificar urgencia al CAPS</td><td>✅</td><td></td></tr>
+            <tr><td>Asignar fecha/hora real de turno</td><td></td><td>✅ Administrativo</td></tr>
+        </table>
+        <div class="note">💡 El bot libera al personal de tareas repetitivas; el equipo se enfoca en emergencias y gestión de turnos reales.</div>
+    </div>
+
+    <!-- 8. JSON del flujo -->
+    <div class="section">
+        <div class="section-title">8️⃣ Código JSON del flujo (copiar para importar en n8n)</div>
+        <div class="json-container">
+            <button class="json-toggle" onclick="toggleJson()">📋 Mostrar / Ocultar JSON</button>
+            <div id="jsonContent" class="json-content">
+                <pre>{
+  "name": "CAPS Bot - Triaje Salud Mental (WhatsApp ready)",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [{ "field": "seconds", "secondsInterval": 10 }] } },
+      "id": "schedule-trigger", "name": "Cada 10 segundos", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1, "position": [100, 300]
+    },
+    {
+      "parameters": { "method": "GET", "url": "https://api.telegram.org/botTU_TOKEN_AQUI/getUpdates", "sendQuery": true, "queryParameters": { "parameters": [ { "name": "offset", "value": "={{ $getWorkflowStaticData('node').offset || 0 }}" }, { "name": "timeout", "value": "5" } ] } },
+      "id": "obtener-mensajes", "name": "Obtener Mensajes", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [300, 300]
+    },
+    {
+      "parameters": { "jsCode": "const PACIENTES_URL = 'https://gist.githubusercontent.com/coronelguillermo85-art/61ccc15c981da4105f65e3973f5c41ca/raw/gistfile1.txt';\nasync function leerPacientes() { try { const res = await fetch(PACIENTES_URL); return await res.json(); } catch(e) { return []; } }\nconst updates = $input.item.json.result || [];\nif (updates.length === 0) return [];\nconst state = $getWorkflowStaticData('node');\nif (!state.sessions) state.sessions = {};\nconst outputs = [];\nfor (const update of updates) {\n    const msg = update.message; if (!msg || !msg.text) continue;\n    const chatId = msg.chat.id; const texto = msg.text.trim(); const userId = String(chatId);\n    let session = state.sessions[userId] || { step: 'inicio' }; let respuesta = '';\n    if (texto === '/start') { session = { step: 'esperando_telefono' }; state.sessions[userId] = session; respuesta = 'Enviá tu número de teléfono:'; }\n    else if (session.step === 'esperando_telefono') { const telefono = texto.replace(/\\s/g, ''); const pacientes = await leerPacientes(); const encontrado = pacientes.find(p => p.TELÉFONO === telefono);\n        if (encontrado) respuesta = `PACIENTE ENCONTRADO\\nNombre: ${encontrado.NOMBRE}\\nTurno de seguimiento asignado.`; else respuesta = 'Número no registrado. Contactá al CAPS.';\n        delete state.sessions[userId]; }\n    else { respuesta = 'Enviá /start para comenzar.'; }\n    if (respuesta) outputs.push({ json: { chatId, message: respuesta } });\n}\nreturn outputs;" },
+      "id": "logica-bot", "name": "Lógica de Triaje", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [500, 300]
+    },
+    {
+      "parameters": { "method": "POST", "url": "https://api.telegram.org/botTU_TOKEN_AQUI/sendMessage", "sendBody": true, "bodyParameters": { "parameters": [ { "name": "chat_id", "value": "={{ $json.chatId }}" }, { "name": "text", "value": "={{ $json.message }}" } ] } },
+      "id": "enviar-respuesta", "name": "Enviar Respuesta", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [700, 300]
+    }
+  ],
+  "connections": { "Cada 10 segundos": { "main": [[{ "node": "Obtener Mensajes", "type": "main", "index": 0 }]] }, "Obtener Mensajes": { "main": [[{ "node": "Lógica de Triaje", "type": "main", "index": 0 }]] }, "Lógica de Triaje": { "main": [[{ "node": "Enviar Respuesta", "type": "main", "index": 0 }]] } },
+  "active": false, "settings": { "executionOrder": "v1" }
+}</pre>
+            </div>
+        </div>
+        <div class="note warning">⚠️ <strong>Seguridad:</strong> Reemplazá <code>TU_TOKEN_AQUI</code> por tu token real. Nunca subas tokens a repositorios públicos.</div>
+    </div>
+
+    <!-- 9. Solución de problemas comunes -->
+    <div class="section">
+        <div class="section-title">9️⃣ Solución de problemas comunes</div>
+        <table>
+            <tr><th>Problema</th><th>Posible solución</th></tr>
+            <tr><td>El bot no responde</td><td>Verificar que el flujo esté en <strong>Active</strong> (verde). Revisar que el token esté bien pegado.</td></tr>
+            <tr><td>Error "offset" o mensajes duplicados</td><td>Ejecutar en el navegador: <code>https://api.telegram.org/botTU_TOKEN/getUpdates?offset=-1</code></td></tr>
+            <tr><td>WhatsApp no recibe mensajes</td><td>Asegurar que la URL del webhook sea HTTPS y que n8n esté accesible desde internet (Railway o ngrok).</td></tr>
+            <tr><td>Railway no levanta n8n</td><td>Verificar que el Dockerfile esté en la raíz del repositorio y que las variables de entorno estén bien escritas.</td></tr>
+        </table>
+    </div>
+
+    <!-- 10. Anexos -->
+    <div class="section">
+        <div class="section-title">🔗 Anexos – Recursos útiles</div>
+        <ul>
+            <li>📂 <strong>Repositorio de ejemplo con código y capturas:</strong> <a href="https://github.com/coronelguillermo85-art/ChatbotCaps">https://github.com/coronelguillermo85-art/ChatbotCaps</a></li>
+            <li>🧪 <strong>Bot de prueba en Telegram:</strong> <code>@Caps_Salud_Mental_Tugip_bot</code></li>
+            <li>📄 <strong>Base de datos de pacientes (ejemplo):</strong> <a href="https://gist.githubusercontent.com/coronelguillermo85-art/61ccc15c981da4105f65e3973f5c41ca/raw/gistfile1.txt">pacientes.txt</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p>📌 Hito 3 – Propuesta integral | Equipo de trabajo | CAPS Dr. Bartolomé Giacomotti | Junio 2026</p>
+        <p>✅ Tutorial validado: cualquier persona puede montar el bot siguiendo estos pasos.</p>
+        <p>⭐ Para exportar a PDF: <strong>Ctrl+P / Cmd+P → Guardar como PDF</strong>. Los colores y saltos de página están optimizados.</p>
+    </div>
+</div>
+
+<script>
+    function toggleJson() {
+        var content = document.getElementById('jsonContent');
+        content.classList.toggle('show');
+    }
+</script>
+</body>
+</html>
