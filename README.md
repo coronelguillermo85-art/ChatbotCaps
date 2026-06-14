@@ -1,3 +1,7 @@
+📁 **Recursos complementarios del proyecto:** [Carpeta Google Drive - CAPS Bot](https://drive.google.com/drive/u/0/folders/1IdkUvw9u_x1RUD6_UMptPTWz_n1MT0kq)
+
+---
+
 # 🤖 Bot de Triaje para Salud Mental - CAPS
 
 ## 📌 Descripción
@@ -43,13 +47,6 @@ La base de datos de pacientes se aloja en un **archivo público de GitHub Gist**
 ```text
 NOMBRE|TELÉFONO|EDAD|SEXO|MOTIVO|TIEMPO|TRATAMIENTO|PRIORIDAD
 Ejemplo|3442123456|37|Masculino|Psiquiatría|más de 3 meses|No|ALTA
-
-### Flujo en n8n
-<img width="1333" height="954" alt="image" src="https://github.com/user-attachments/assets/14e90492-9bb1-4988-b2ac-4dd064d5eac9" />
-
-### Conversación en Telegram
-<img width="365" height="651" alt="image" src="https://github.com/user-attachments/assets/f5f01eae-f862-44cf-834f-4645ffa9c932" />
-
 ---
 
 ## 🧠 Código del nodo "Lógica del Bot" (n8n)
