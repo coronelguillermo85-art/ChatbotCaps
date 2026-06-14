@@ -28,6 +28,23 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 ## 🖼️ Capturas de pantalla
 
 ### Flujo en n8n
+![Flujo en n8n](https://github.com/user-attachments/assets/14e90492-9bb1-4988-b2ac-4dd064d5eac9)
+
+### Conversación en Telegram
+![Conversación en Telegram](https://github.com/user-attachments/assets/f5f01eae-f862-44cf-834f-4645ffa9c932)
+
+## 🗄️ Base de datos
+La base de datos de pacientes se aloja en un **archivo público de GitHub Gist**.
+
+**Base de ejemplo (datos ficticios):**  
+👉 [pacientes.txt - Base de datos del bot](https://gist.githubusercontent.com/coronelguillermo85-art/61ccc15c981da4105f65e3973f5c41ca/raw/gistfile1.txt)
+
+**Formato de cada registro (CSV con separador `|`):**
+```text
+NOMBRE|TELÉFONO|EDAD|SEXO|MOTIVO|TIEMPO|TRATAMIENTO|PRIORIDAD
+Ejemplo|3442123456|37|Masculino|Psiquiatría|más de 3 meses|No|ALTA
+
+### Flujo en n8n
 <img width="1333" height="954" alt="image" src="https://github.com/user-attachments/assets/14e90492-9bb1-4988-b2ac-4dd064d5eac9" />
 
 ### Conversación en Telegram
@@ -65,12 +82,4 @@ Este es el código JavaScript completo que ejecuta la lógica del triaje, lee la
     }
   ]
 }
-
-
-
-
-Carpeta de Archivos: https://drive.google.com/drive/folders/1IdkUvw9u_x1RUD6_UMptPTWz_n1MT0kq?usp=drive_link
-
-
-
 
