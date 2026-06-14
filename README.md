@@ -49,7 +49,7 @@ NOMBRE|TELÉFONO|EDAD|SEXO|MOTIVO|TIEMPO|TRATAMIENTO|PRIORIDAD
 Ejemplo|3442123456|37|Masculino|Psiquiatría|más de 3 meses|No|ALTA
 ---
 
-## 🧠 Código del nodo "Lógica del Bot" (n8n)
+## 🧠 Código base del nodo "Lógica del Bot" (n8n)
 
 Este es el código JavaScript completo que ejecuta la lógica del triaje, lee la base de datos desde GitHub Gist y gestiona la conversación con el usuario.
 
