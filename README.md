@@ -40,7 +40,8 @@ Bot automatizado para el **Centro de Atención Primaria de la Salud (CAPS) Dr. B
 ## 🗄️ Base de datos
 La base de datos de pacientes se aloja en un **archivo público de GitHub Gist**.
 
-**Base de ejemplo (datos ficticios):**  
+**Base de ejemplo (datos ficticios):**  <img width="246" height="109" alt="image" src="https://github.com/user-attachments/assets/1665f2bb-f31e-4eee-8957-0b4b0cba4ba4" />
+
 👉 [pacientes.txt - Base de datos del bot](https://gist.githubusercontent.com/coronelguillermo85-art/61ccc15c981da4105f65e3973f5c41ca/raw/gistfile1.txt)
 
 **Formato de cada registro (CSV con separador `|`):**
