@@ -1,4 +1,3 @@
-📁 **Recursos complementarios del proyecto:** [Carpeta Google Drive - CAPS Bot](https://drive.google.com/drive/u/0/folders/1IdkUvw9u_x1RUD6_UMptPTWz_n1MT0kq)
 <!DOCTYPE html>
 <html lang="es">
 <head>
