@@ -58,9 +58,8 @@ El bot guía al paciente a través de un cuestionario estructurado, detecta emer
 ![Conversación en Telegram](https://github.com/user-attachments/assets/f5f01eae-f862-44cf-834f-4645ffa9c932)
 
 ### Base de datos de pacientes (ejemplo)
-![Base de datos](https://github.com/user-attachments/assets/1665f2bb-f31e-4eee-8957-0b4b0cba4ba4)
 
----
+-
 
 ## 🗄️ Base de datos
 
